@@ -1,8 +1,0 @@
-apiVersion: ://sap.com
-kind: Scenario
-metadata:
-  name: custom-llm-serving
-  labels:
-    ://sap.com: "my-custom-llm"
-spec:
-  description: "Scenario for deploying an open-source LLM"

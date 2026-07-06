@@ -1,8 +1,24 @@
-apiVersion: ://sap.com
-kind: Scenario
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
 metadata:
-  name: custom-llm-serving
+  name: hello-world-pipeline
+  annotations:
+    scenarios.ai.sap.com/name: "hello-world-scenario"
+    scenarios.ai.sap.com/description: "My first proper scenario in SAP AI Core"
+    executables.ai.sap.com/name: "hello-world-executable"
+    executables.ai.sap.com/description: "A simple pipeline that prints Hello World"
   labels:
-    scenarios.ai.sap.com/id: "my-custom-llm"
+    scenarios.ai.sap.com/id: "hello-world-scenario"
+    ai.sap.com/version: "1.0.0"
 spec:
-  description: "Scenario for deploying an open-source LLM"
+  entrypoint: mypipeline
+  templates:
+    - name: mypipeline
+      steps:
+        - - name: greet
+            template: greeter
+    - name: greeter
+      container:
+        image: python:3.9-slim
+        command: ["python3", "-c"]
+        args: ["print('Hello, this is my proper SAP AI Core scenario!')"]

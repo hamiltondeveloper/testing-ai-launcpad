@@ -1,26 +1,31 @@
-apiVersion: ://sap.com
+apiVersion: ai.sap.com/v1alpha1
 kind: ServingTemplate
 metadata:
   name: ollama-llm-template
+  annotations:
+    scenarios.ai.sap.com/name: "my-custom-llm-scenario"
+    executables.ai.sap.com/name: "ollama-llm-executable"
   labels:
-    ://sap.com: "my-custom-llm"
-    ://sap.com: "1.0"
+    scenarios.ai.sap.com/id: "my-custom-llm-scenario"
+    ai.sap.com/version: "1.0.0"
 spec:
-  inputs: {}
+  inputs:
+    parameters:
+      - name: image
+        type: string
+        default: "ollama/ollama:latest"
   template:
-    apiVersion: apps/v1
-    kind: Deployment
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      labels:
+        ai.sap.com/resourcePlan: starter
     spec:
-      selector:
-        matchLabels:
-          app: ollama-server
-      template:
-        metadata:
-          labels:
-            app: ollama-server
-        spec:
-          containers:
-            - name: ollama-container
-              image: ollama/ollama:latest
-              ports:
-                - containerPort: 11434
+      predictor:
+        imagePullSecrets:
+          - name: docker-registry-secret
+        containers:
+          - name: kserve-container
+            image: "{{inputs.parameters.image}}"
+            ports:
+              - containerPort: 11434
+                protocol: TCP

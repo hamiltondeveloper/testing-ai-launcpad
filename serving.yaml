@@ -24,6 +24,11 @@ spec:
         containers:
         - name: kserve-container
           image: "{{inputs.parameters.image}}"
+          env:
+          - name: HOME
+            value: /tmp
+          - name: OLLAMA_MODELS
+            value: /tmp/.ollama/models
           ports:
           - containerPort: 11434
             protocol: TCP

@@ -1,0 +1,26 @@
+apiVersion: ://sap.com
+kind: ServingTemplate
+metadata:
+  name: ollama-llm-template
+  labels:
+    ://sap.com: "my-custom-llm"
+    ://sap.com: "1.0"
+spec:
+  inputs: {}
+  template:
+    apiVersion: apps/v1
+    kind: Deployment
+    spec:
+      selector:
+        matchLabels:
+          app: ollama-server
+      template:
+        metadata:
+          labels:
+            app: ollama-server
+        spec:
+          containers:
+            - name: ollama-container
+              image: ollama/ollama:latest
+              ports:
+                - containerPort: 11434

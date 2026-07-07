@@ -32,3 +32,9 @@ spec:
           ports:
           - containerPort: 11434
             protocol: TCP
+          volumeMounts:
+          - name: tmp-storage
+            mountPath: /tmp
+        volumes:
+        - name: tmp-storage
+          emptyDir: {}

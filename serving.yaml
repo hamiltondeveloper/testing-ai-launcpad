@@ -29,6 +29,8 @@ spec:
             value: /tmp
           - name: OLLAMA_MODELS
             value: /tmp/.ollama/models
+          - name: OLLAMA_HOST
+            value: "0.0.0.0:11434"
           ports:
           - containerPort: 11434
             protocol: TCP
